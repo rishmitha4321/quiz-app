@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz App</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f3f4f6;
+    }
+    #quiz-container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+    }
+</style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <h2>Quiz App</h2>
+    <div id="question"></div>
+    <div id="options"></div>
+    <button onclick="checkAnswer()">Submit Answer</button>
+    <p id="feedback"></p>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "What is the capital of France?",
+            options: ["Paris", "London", "Berlin", "Madrid"],
+            answer: "Paris"
+        },
+        {
+            question: "Which planet is known as the Red Planet?",
+            options: ["Venus", "Mars", "Jupiter", "Saturn"],
+            answer: "Mars"
+        },
+        {
+            question: "What is the largest mammal?",
+            options: ["Elephant", "Whale", "Giraffe", "Hippopotamus"],
+            answer: "Whale"
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    const questionElement = document.getElementById('question');
+    const optionsElement = document.getElementById('options');
+    const feedbackElement = document.getElementById('feedback');
+
+    function displayQuestion() {
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.textContent = currentQuestion.question;
+        optionsElement.innerHTML = '';
+        currentQuestion.options.forEach(option => {
+            const optionButton = document.createElement('button');
+            optionButton.textContent = option;
+            optionButton.setAttribute('data-answer', option);
+            optionButton.addEventListener('click', () => {
+                checkAnswer(option);
+            });
+            optionsElement.appendChild(optionButton);
+        });
+    }
+
+    function checkAnswer(selectedAnswer) {
+        const currentQuestion = questions[currentQuestionIndex];
+        if (selectedAnswer === currentQuestion.answer) {
+            feedbackElement.textContent = 'Correct!';
+        } else {
+            feedbackElement.textContent = 'Incorrect. Try again!';
+        }
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+        } else {
+            feedbackElement.textContent = 'Quiz completed!';
+            optionsElement.innerHTML = '';
+            document.querySelector('button').style.display = 'none';
+        }
+    }
+
+    displayQuestion();
+</script>
+
+</body>
+</html>
